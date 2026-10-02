@@ -24,7 +24,7 @@ function StatBar({ label, value }) {
   );
 }
 
-export default function Garage({ cars, series, configs, onSelect }) {
+export default function Garage({ cars, configs, onSelect }) {
   const gridRef = useRef();
 
   const onKeyDown = (e) => {
@@ -41,43 +41,36 @@ export default function Garage({ cars, series, configs, onSelect }) {
     <main className="garage">
       <header className="garage__header">
         <h1 className="logo">
-          <span className="logo__a">RETRO</span> <span className="logo__b">INITIAL D</span>
+          <span className="logo__a">TOFU DELIVERY</span> <span className="logo__b">GARAGE</span>
         </h1>
         <p className="blink">▶ SELECT YOUR RIDE ◀</p>
       </header>
 
       <div className="car-sections" ref={gridRef} onKeyDown={onKeyDown}>
-        {series.map((sr) => (
-          <section key={sr.id} className="car-section">
-            <h2 className="car-section__title">{sr.name}</h2>
-            <div className="car-grid">
-              {cars
-                .filter((car) => car.series === sr.id)
-                .map((car) => {
-                  const i = cars.indexOf(car);
-                  return (
-                    <button key={car.id} type="button" className="car-card" onClick={() => onSelect(car.id)} autoFocus={i === 0}>
-                      <PixelCanvas camera={{ position: [5.6, 2.5, 5.6], fov: 34 }}>
-                        <Stage />
-                        <Turntable>
-                          <CarModel car={car} config={configs[car.id]} />
-                        </Turntable>
-                      </PixelCanvas>
-                      <div className="car-card__info">
-                        <span className="car-card__num">P{i + 1}</span>
-                        <span className="car-card__make">{car.make}</span>
-                        <h3>{car.model}</h3>
-                        <p className="car-card__tag">{car.tagline}</p>
-                        <StatBar label="SPD" value={car.stats.speed} />
-                        <StatBar label="HND" value={car.stats.handling} />
-                        <StatBar label="DRF" value={car.stats.drift} />
-                      </div>
-                    </button>
-                  );
-                })}
-            </div>
-          </section>
-        ))}
+        <div className="car-grid">
+          {cars.map((car) => {
+            const i = cars.indexOf(car);
+            return (
+              <button key={car.id} type="button" className="car-card" onClick={() => onSelect(car.id)} autoFocus={i === 0}>
+                <PixelCanvas camera={{ position: [5.6, 2.5, 5.6], fov: 34 }}>
+                  <Stage />
+                  <Turntable>
+                    <CarModel car={car} config={configs[car.id]} />
+                  </Turntable>
+                </PixelCanvas>
+                <div className="car-card__info">
+                  <span className="car-card__num">P{i + 1}</span>
+                  <span className="car-card__make">{car.make}</span>
+                  <h3>{car.model}</h3>
+                  <p className="car-card__tag">{car.tagline}</p>
+                  <StatBar label="SPD" value={car.stats.speed} />
+                  <StatBar label="HND" value={car.stats.handling} />
+                  <StatBar label="DRF" value={car.stats.drift} />
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <footer className="garage__footer">

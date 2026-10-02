@@ -1,17 +1,18 @@
 import { useLayoutEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
+import Scenery from './Scenes.jsx';
 
 export const CAR_CENTER = [0, 0.55, 0];
 
-// Renders at a fraction of the CSS size (dpr = 1 / pixel) with antialiasing
-// off; CSS `image-rendering: pixelated` then upscales it into crisp blocks.
+// Renders at full device resolution with antialiasing; the retro look comes
+// from the toon shading and the CRT styling around it.
 export default function PixelCanvas({ pixel = 2, camera, onCreated, children, className = '' }) {
   return (
     <div className={`pixel-canvas ${className}`}>
       <Canvas
-        dpr={1 / pixel}
+        dpr={[1, 2]}
         flat
-        gl={{ antialias: false, preserveDrawingBuffer: true }}
+        gl={{ antialias: true, preserveDrawingBuffer: true }}
         camera={camera ?? { position: [5.6, 2.6, 5.6], fov: 32 }}
         onCreated={onCreated}
       >
@@ -28,7 +29,16 @@ function LookAt({ target }) {
   return null;
 }
 
-export function Stage({ grid = true, target = CAR_CENTER }) {
+// `scene` picks a photo-mode backdrop (three/Scenes.jsx); the default is the neon garage.
+export function Stage({ grid = true, target = CAR_CENTER, scene = 'garage' }) {
+  if (scene !== 'garage') {
+    return (
+      <>
+        <LookAt target={target} />
+        <Scenery id={scene} />
+      </>
+    );
+  }
   return (
     <>
       <LookAt target={target} />

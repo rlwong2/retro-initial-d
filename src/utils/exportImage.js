@@ -1,11 +1,10 @@
 const FONT = '"Press Start 2P", monospace';
 
-// Upscales the low-res WebGL frame with nearest-neighbor sampling (so the
-// pixels stay crisp), adds a caption bar, and downloads it as a PNG.
+// Copies the WebGL frame, adds a caption bar, and downloads it as a PNG.
 export async function exportCarImage({ gl, scene, camera }, { carName, lines, fileName }) {
   gl.render(scene, camera);
   const src = gl.domElement;
-  const scale = Math.max(1, Math.round(1024 / src.width));
+  const scale = Math.max(1, Math.round(1600 / src.width));
   const w = src.width * scale;
   const h = src.height * scale;
   const bar = 26 * Math.max(2, Math.round(scale / 2));
@@ -14,7 +13,7 @@ export async function exportCarImage({ gl, scene, camera }, { carName, lines, fi
   out.width = w;
   out.height = h + bar;
   const ctx = out.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
+  ctx.imageSmoothingEnabled = true;
   ctx.drawImage(src, 0, 0, w, h);
 
   try {
@@ -38,7 +37,7 @@ export async function exportCarImage({ gl, scene, camera }, { carName, lines, fi
   ctx.fillText(lines.join('  /  ').toUpperCase(), unit * 2, h + bar * 0.75);
   ctx.textAlign = 'right';
   ctx.fillStyle = '#b6ff00';
-  ctx.fillText('RETRO INITIAL D', w - unit * 2, h + bar * 0.38);
+  ctx.fillText('TOFU DELIVERY GARAGE', w - unit * 2, h + bar * 0.38);
 
   const blob = await new Promise((resolve) => out.toBlob(resolve, 'image/png'));
   const url = URL.createObjectURL(blob);

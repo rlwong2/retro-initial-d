@@ -4,13 +4,14 @@ import PixelCanvas, { Stage, CAR_CENTER } from '../three/PixelCanvas.jsx';
 import CarModel from '../three/CarModel.jsx';
 import PixelButton from '../components/PixelButton.jsx';
 import PixelPanel from '../components/PixelPanel.jsx';
-import { COLORS, WHEELS, SPOILERS, byId } from '../data/options.js';
+import { COLORS, WHEELS, SPOILERS, SCENES, byId } from '../data/options.js';
 import { exportCarImage } from '../utils/exportImage.js';
 
 const TABS = [
   { id: 'color', label: 'COLOR', icon: '■', list: COLORS },
   { id: 'wheel', label: 'WHEELS', icon: '◎', list: WHEELS },
   { id: 'spoiler', label: 'SPOILER', icon: '▲', list: SPOILERS },
+  { id: 'scene', label: 'SCENE', icon: '◐', list: SCENES },
 ];
 
 function Swatch({ tab, opt }) {
@@ -18,17 +19,18 @@ function Swatch({ tab, opt }) {
     const background = opt.lower ? `linear-gradient(${opt.hex} 55%, ${opt.lower} 55%)` : opt.hex;
     return <i className="swatch" style={{ background }} />;
   }
+  if (tab === 'scene') return <i className="swatch" style={{ background: `linear-gradient(${opt.sky[0]}, ${opt.sky[1]})` }} />;
   if (tab === 'wheel') return <i className="swatch swatch--wheel" style={{ '--rim': opt.rim }} />;
   return <i className={`swatch swatch--spoiler swatch--${opt.id}`} />;
 }
 
-export default function Customize({ car, config, onChange, onReset, onBack }) {
+export default function Customize({ car, config, scene, onChange, onScene, onReset, onBack }) {
   const [tab, setTab] = useState('color');
   const [busy, setBusy] = useState(false);
   const three = useRef(null);
   const active = TABS.find((t) => t.id === tab);
 
-  const summary = [byId(COLORS, config.color).name, `${byId(WHEELS, config.wheel).name} wheels`, `${byId(SPOILERS, config.spoiler).name} spoiler`];
+  const summary = [byId(COLORS, config.color).name, `${byId(WHEELS, config.wheel).name} wheels`, `${byId(SPOILERS, config.spoiler).name} spoiler`, byId(SCENES, scene).name];
 
   const doExport = async () => {
     if (!three.current) return;
@@ -37,7 +39,7 @@ export default function Customize({ car, config, onChange, onReset, onBack }) {
       await exportCarImage(three.current, {
         carName: car.name,
         lines: summary,
-        fileName: `retro-initial-d-${car.id}.png`,
+        fileName: `tofu-delivery-garage-${car.id}-${scene}.png`,
       });
     } finally {
       setBusy(false);
@@ -69,7 +71,7 @@ export default function Customize({ car, config, onChange, onReset, onBack }) {
 
       <div className="stage">
         <PixelCanvas pixel={2} camera={{ position: [7.4, 3, 7.4], fov: 30 }} onCreated={(s) => (three.current = s)}>
-          <Stage />
+          <Stage scene={scene} />
           <CarModel car={car} config={config} />
           <OrbitControls
             target={CAR_CENTER}
@@ -88,7 +90,7 @@ export default function Customize({ car, config, onChange, onReset, onBack }) {
       <PixelPanel title={active.label} className="options">
         <ul role="listbox" aria-label={active.label}>
           {active.list.map((opt) => {
-            const selected = config[tab] === opt.id;
+            const selected = (tab === 'scene' ? scene : config[tab]) === opt.id;
             return (
               <li key={opt.id}>
                 <button
@@ -96,7 +98,7 @@ export default function Customize({ car, config, onChange, onReset, onBack }) {
                   role="option"
                   aria-selected={selected}
                   className={`option ${selected ? 'is-selected' : ''}`}
-                  onClick={() => onChange({ [tab]: opt.id })}
+                  onClick={() => (tab === 'scene' ? onScene(opt.id) : onChange({ [tab]: opt.id }))}
                 >
                   <span className="option__cursor">{selected ? '▶' : ''}</span>
                   <Swatch tab={tab} opt={opt} />

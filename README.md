@@ -1,8 +1,7 @@
-# Retro Initial D
+# Tofu Delivery Garage
 
-A pixel-art car customizer. Pick a car from the garage (four Initial D icons and four
-Fast & Furious icons: AE86 Trueno, RX-7 FD3S, Skyline R32, Lancer Evo III, Supra Mk IV,
-Skyline R34, '70 Charger R/T, S2000), then change its paint, wheels,
+A pixel-art car customizer. Pick a car from the garage (AE86 Trueno, RX-7 FD3S, Skyline R32, Lancer Evo III, Supra Mk IV,
+Skyline R34, Pixis kei truck, S2000), then change its paint, wheels,
 and spoiler on a low-poly 3D model that renders like an old video game, and export the
 result as a PNG.
 

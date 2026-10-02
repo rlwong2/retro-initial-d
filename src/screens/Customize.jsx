@@ -65,7 +65,7 @@ export default function Customize({ car, config, onChange, onReset, onBack }) {
       </nav>
 
       <div className="stage">
-        <PixelCanvas pixel={5} camera={{ position: [7.4, 3, 7.4], fov: 30 }} onCreated={(s) => (three.current = s)}>
+        <PixelCanvas pixel={2} camera={{ position: [7.4, 3, 7.4], fov: 30 }} onCreated={(s) => (three.current = s)}>
           <Stage />
           <CarModel car={car} config={config} />
           <OrbitControls

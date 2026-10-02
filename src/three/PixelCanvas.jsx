@@ -5,7 +5,7 @@ export const CAR_CENTER = [0, 0.55, 0];
 
 // Renders at a fraction of the CSS size (dpr = 1 / pixel) with antialiasing
 // off; CSS `image-rendering: pixelated` then upscales it into crisp blocks.
-export default function PixelCanvas({ pixel = 4, camera, onCreated, children, className = '' }) {
+export default function PixelCanvas({ pixel = 2, camera, onCreated, children, className = '' }) {
   return (
     <div className={`pixel-canvas ${className}`}>
       <Canvas

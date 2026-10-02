@@ -49,7 +49,7 @@ export default function Garage({ cars, configs, onSelect }) {
       <div className="car-grid" ref={gridRef} onKeyDown={onKeyDown}>
         {cars.map((car, i) => (
           <button key={car.id} type="button" className="car-card" onClick={() => onSelect(car.id)} autoFocus={i === 0}>
-            <PixelCanvas pixel={4} camera={{ position: [5.4, 2.4, 5.4], fov: 34 }}>
+            <PixelCanvas pixel={2} camera={{ position: [5.4, 2.4, 5.4], fov: 34 }}>
               <Stage />
               <Turntable>
                 <CarModel car={car} config={configs[car.id]} />

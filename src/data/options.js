@@ -10,7 +10,7 @@ export const COLORS = [
   { id: 'yellow', name: 'Champion Yellow', hex: '#ffd400' },
   { id: 'blue', name: 'Bayside Blue', hex: '#1f6bff' },
   { id: 'pink', name: 'Neon Pink', hex: '#ff2e88' },
-  { id: 'lime', name: 'Toxic Lime', hex: '#b6ff00' },
+  { id: 'white', name: 'Pearl White', hex: '#f4f4f0' },
 ];
 
 export const WHEELS = [
@@ -28,6 +28,15 @@ export const SPOILERS = [
   { id: 'gt', name: 'GT Wing' },
   { id: 'swan', name: 'Swan Neck' },
   { id: 'rally', name: 'Rally Kit' },
+];
+
+// Photo-mode backdrops, built in three/Scenes.jsx. `sky` is the swatch gradient.
+export const SCENES = [
+  { id: 'garage', name: 'Neon Garage', sky: ['#120d26', '#ff2e88'] },
+  { id: 'night', name: 'Night Street Race', sky: ['#04030c', '#2a1650'] },
+  { id: 'desert', name: 'Sunny Desert Street', sky: ['#1f6fd0', '#d7ab72'] },
+  { id: 'city', name: 'Big City Dusk', sky: ['#241650', '#ffbf6a'] },
+  { id: 'miami', name: 'Miami Tropical Highway', sky: ['#7a2a8e', '#13b2c0'] },
 ];
 
 export const byId = (list, id) => list.find((o) => o.id === id) ?? list[0];

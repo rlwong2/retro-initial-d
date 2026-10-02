@@ -15,7 +15,7 @@ function Spokes({ count, length, thick, at, color, twist = 0, offset = 0 }) {
   });
 }
 
-function Disk({ r, color, z = 0.004, seg = 10 }) {
+function Disk({ r, color, z = 0.004, seg = 24 }) {
   return (
     <mesh position-z={z}>
       <circleGeometry args={[r, seg]} />
@@ -27,7 +27,7 @@ function Disk({ r, color, z = 0.004, seg = 10 }) {
 function Ring({ inner, outer, color, z = 0.01 }) {
   return (
     <mesh position-z={z}>
-      <ringGeometry args={[inner, outer, 10]} />
+      <ringGeometry args={[inner, outer, 24]} />
       <Toon color={color} />
     </mesh>
   );
@@ -38,7 +38,7 @@ function Holes({ count, r, at, color }) {
     const a = (i / count) * Math.PI * 2;
     return (
       <mesh key={i} position={[Math.cos(a) * at, Math.sin(a) * at, 0.012]}>
-        <circleGeometry args={[r, 6]} />
+        <circleGeometry args={[r, 12]} />
         <Toon color={color} />
       </mesh>
     );
@@ -104,13 +104,13 @@ export default function Wheel({ position, side, style, rim, R, tw }) {
   return (
     <group position={position}>
       <mesh rotation-x={Math.PI / 2}>
-        <cylinderGeometry args={[R, R, tw, 10]} />
+        <cylinderGeometry args={[R, R, tw, 28]} />
         <Toon color={TIRE} />
       </mesh>
       <group position-z={side * (tw / 2 + 0.002)} rotation-y={side < 0 ? Math.PI : 0}>
         <Face style={style} rim={rim} R={R} />
         <mesh position-z={0.02}>
-          <circleGeometry args={[R * 0.12, 6]} />
+          <circleGeometry args={[R * 0.12, 12]} />
           <Toon color={style === 'turbofan' ? DARK : rim} />
         </mesh>
       </group>

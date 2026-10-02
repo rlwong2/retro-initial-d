@@ -46,7 +46,7 @@ h1, h2, h3, p { margin: 0; font-weight: normal; }
 button { font-family: inherit; font-size: inherit; color: inherit; }
 
 .pixel-canvas { position: relative; width: 100%; height: 100%; }
-.pixel-canvas canvas { display: block; image-rendering: crisp-edges; image-rendering: pixelated; }
+.pixel-canvas canvas { display: block; image-rendering: auto; }
 
 /* ---------- Buttons ---------- */
 .px-btn {
@@ -270,9 +270,13 @@ button { font-family: inherit; font-size: inherit; color: inherit; }
     padding: 16px;
   }
   .custom__hint { display: none; }
-  .tabs { flex-direction: row; }
-  .tab { flex: 1; justify-content: center; padding: 12px 6px; font-size: 9px; }
+  .tabs { flex-direction: row; gap: 10px; }
+  .tab { flex: 1; min-width: 0; justify-content: center; gap: 6px; padding: 12px 4px; font-size: 9px; }
   .options ul { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .custom__bottom { justify-content: stretch; }
   .custom__bottom .px-btn { flex: 1; }
+}
+@media (max-width: 480px) {
+  .tab__icon { display: none; }
+  .tab { font-size: 8px; }
 }

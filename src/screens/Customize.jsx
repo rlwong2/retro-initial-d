@@ -14,7 +14,10 @@ const TABS = [
 ];
 
 function Swatch({ tab, opt }) {
-  if (tab === 'color') return <i className="swatch" style={{ background: opt.hex }} />;
+  if (tab === 'color') {
+    const background = opt.lower ? `linear-gradient(${opt.hex} 55%, ${opt.lower} 55%)` : opt.hex;
+    return <i className="swatch" style={{ background }} />;
+  }
   if (tab === 'wheel') return <i className="swatch swatch--wheel" style={{ '--rim': opt.rim }} />;
   return <i className={`swatch swatch--spoiler swatch--${opt.id}`} />;
 }

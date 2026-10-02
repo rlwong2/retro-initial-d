@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CARS } from './data/cars.js';
+import { CARS, SERIES } from './data/cars.js';
 import Garage from './screens/Garage.jsx';
 import Customize from './screens/Customize.jsx';
 
@@ -13,7 +13,7 @@ export default function App() {
   const car = CARS.find((c) => c.id === carId);
 
   if (!car) {
-    return <Garage cars={CARS} configs={configs} onSelect={setCarId} />;
+    return <Garage cars={CARS} series={SERIES} configs={configs} onSelect={setCarId} />;
   }
   return (
     <Customize

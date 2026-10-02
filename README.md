@@ -1,6 +1,8 @@
 # Retro Initial D
 
-A pixel-art car customizer. Pick a car from the garage, then change its paint, wheels,
+A pixel-art car customizer. Pick a car from the garage (four Initial D icons and four
+Fast & Furious icons: AE86 Trueno, RX-7 FD3S, Skyline R32, Lancer Evo III, Supra Mk IV,
+Skyline R34, '70 Charger R/T, S2000), then change its paint, wheels,
 and spoiler on a low-poly 3D model that renders like an old video game, and export the
 result as a PNG.
 
@@ -27,7 +29,7 @@ The Vite `base` is `./`, so it also works from a subfolder.
 - **Cars** (`src/data/cars.js`) are shape parameters, not model files. `CarModel.jsx`
   extrudes a side profile (with wheel arches) for the body, then adds the cabin, roof,
   lights, wheels (`Wheel.jsx`) and spoiler (`Spoiler.jsx`).
-- **Options** (`src/data/options.js`): 8 colors, 6 wheels, 5 spoilers. Each category is
+- **Options** (`src/data/options.js`): 9 colors (including the AE86 panda two-tone), 6 wheels, 5 spoilers. Each category is
   kept under 10.
 - **Export** (`src/utils/exportImage.js`) upscales the low-res frame with
   nearest-neighbor sampling, adds a caption bar, and downloads it as a PNG.

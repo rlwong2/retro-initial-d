@@ -1,14 +1,16 @@
 // Every customization category is capped below 10 options on purpose.
 
+// `lower` paints the bottom of the body a second color (the AE86's "panda" two-tone).
 export const COLORS = [
-  { id: 'panda', name: 'Panda White', hex: '#f2f2f2' },
+  { id: 'panda', name: 'Panda Two-Tone', hex: '#f2f2f2', lower: '#1c1c24' },
   { id: 'black', name: 'Midnight Black', hex: '#3a3a4c' },
-  { id: 'pink', name: 'Neon Pink', hex: '#ff2e88' },
-  { id: 'cyan', name: 'Cyber Cyan', hex: '#00e5ff' },
-  { id: 'lime', name: 'Toxic Lime', hex: '#b6ff00' },
-  { id: 'orange', name: 'Sunset Orange', hex: '#ff7a1a' },
-  { id: 'purple', name: 'Royal Purple', hex: '#8b3dff' },
+  { id: 'silver', name: 'Sonic Silver', hex: '#c4cad6' },
   { id: 'red', name: 'Racing Red', hex: '#ff2a2a' },
+  { id: 'orange', name: 'Sunset Orange', hex: '#ff7a1a' },
+  { id: 'yellow', name: 'Champion Yellow', hex: '#ffd400' },
+  { id: 'blue', name: 'Bayside Blue', hex: '#1f6bff' },
+  { id: 'pink', name: 'Neon Pink', hex: '#ff2e88' },
+  { id: 'lime', name: 'Toxic Lime', hex: '#b6ff00' },
 ];
 
 export const WHEELS = [

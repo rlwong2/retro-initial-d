@@ -6,6 +6,7 @@ import Spoiler from './Spoiler.jsx';
 
 const GLASS = '#1b2a4a';
 const TRIM = '#202028';
+const CHROME = '#d8dde6';
 
 // Side profile of the lower body, with wheel arches cut into the bottom edge.
 function bodyProfile({ L, H, lift, R, wb, nose, tail }) {
@@ -38,15 +39,20 @@ function Box({ size, position, rotation, children }) {
 export default function CarModel({ car, config }) {
   const g = car.geo;
   const { L, W, H, cab } = g;
-  const paint = byId(COLORS, config.color).hex;
+  const color = byId(COLORS, config.color);
+  const paint = color.hex;
   const wheel = byId(WHEELS, config.wheel);
 
   const geos = useMemo(() => {
     const roofFront = cab.front - cab.ws;
     const roofRear = cab.rear + cab.rr;
     const top = H + cab.h;
+    const profile = bodyProfile(g);
+    const cut = H * 0.42;
     return {
-      body: extrudeProfile(bodyProfile(g), W),
+      body: extrudeProfile(profile, W),
+      // Same outline clamped below the beltline, a hair wider so it shows on the sides.
+      lower: extrudeProfile(profile.map(([x, y]) => [x, Math.min(y, cut)]), W + 0.012),
       cabin: g.open
         ? extrudeProfile([[cab.front, H], [cab.front - 0.07, H], [roofFront - 0.07, top], [roofFront, top]], W * 0.82)
         : extrudeProfile([[cab.rear, H], [cab.front, H], [roofFront, top], [roofRear, top]], W * 0.84),
@@ -77,6 +83,11 @@ export default function CarModel({ car, config }) {
         <mesh geometry={geos.body}>
           <Toon color={paint} />
         </mesh>
+        {color.lower && (
+          <mesh geometry={geos.lower}>
+            <Toon color={color.lower} />
+          </mesh>
+        )}
         <mesh geometry={geos.cabin}>
           <Toon color={GLASS} />
         </mesh>
@@ -100,6 +111,16 @@ export default function CarModel({ car, config }) {
               <group key={s}>
                 <Box size={[0.12, 0.34, 0.4]} position={[cab.rear + 0.15, H + 0.17, s * W * 0.2]} rotation={[0, 0, 0.12]}>
                   <Toon color="#3a2a4a" />
+                </Box>
+                {/* roll hoop */}
+                <Box size={[0.05, 0.38, 0.05]} position={[cab.rear + 0.02, H + 0.19, s * W * 0.2 + 0.18]}>
+                  <Toon color={CHROME} />
+                </Box>
+                <Box size={[0.05, 0.38, 0.05]} position={[cab.rear + 0.02, H + 0.19, s * W * 0.2 - 0.18]}>
+                  <Toon color={CHROME} />
+                </Box>
+                <Box size={[0.05, 0.05, 0.41]} position={[cab.rear + 0.02, H + 0.38, s * W * 0.2]}>
+                  <Toon color={CHROME} />
                 </Box>
               </group>
             ))}
@@ -139,11 +160,32 @@ export default function CarModel({ car, config }) {
           )
         )}
         {/* taillights */}
-        {[1, -1].map((s) => (
-          <Box key={s} size={[0.03, H * 0.16, W * 0.3]} position={[-L / 2 - 0.005, H * 0.5, s * W * 0.3]}>
-            <Glow color="#ff1a3c" />
-          </Box>
-        ))}
+        {g.tails === 'quad'
+          ? [-0.36, -0.2, 0.2, 0.36].map((zf) => (
+              <mesh key={zf} position={[-L / 2 - 0.006, H * 0.55, zf * W]} rotation-y={-Math.PI / 2}>
+                <circleGeometry args={[H * 0.12, 8]} />
+                <Glow color="#ff1a3c" />
+              </mesh>
+            ))
+          : [1, -1].map((s) => (
+              <Box key={s} size={[0.03, H * 0.16, W * 0.3]} position={[-L / 2 - 0.005, H * 0.5, s * W * 0.3]}>
+                <Glow color="#ff1a3c" />
+              </Box>
+            ))}
+
+        {g.blower && (
+          <group position={[L / 2 - g.nose - 0.75, H, 0]}>
+            <Box size={[0.42, 0.16, 0.42]} position={[0, 0.08, 0]}>
+              <Toon color={CHROME} />
+            </Box>
+            <Box size={[0.34, 0.16, 0.34]} position={[0.02, 0.24, 0]}>
+              <Toon color={TRIM} />
+            </Box>
+            <Box size={[0.04, 0.12, 0.3]} position={[0.2, 0.26, 0]}>
+              <Toon color={CHROME} />
+            </Box>
+          </group>
+        )}
 
         <Spoiler style={config.spoiler} color={paint} geo={g} />
       </group>

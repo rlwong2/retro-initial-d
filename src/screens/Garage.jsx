@@ -24,7 +24,7 @@ function StatBar({ label, value }) {
   );
 }
 
-export default function Garage({ cars, configs, onSelect }) {
+export default function Garage({ cars, series, configs, onSelect }) {
   const gridRef = useRef();
 
   const onKeyDown = (e) => {
@@ -46,24 +46,37 @@ export default function Garage({ cars, configs, onSelect }) {
         <p className="blink">▶ SELECT YOUR RIDE ◀</p>
       </header>
 
-      <div className="car-grid" ref={gridRef} onKeyDown={onKeyDown}>
-        {cars.map((car, i) => (
-          <button key={car.id} type="button" className="car-card" onClick={() => onSelect(car.id)} autoFocus={i === 0}>
-            <PixelCanvas pixel={2} camera={{ position: [5.4, 2.4, 5.4], fov: 34 }}>
-              <Stage />
-              <Turntable>
-                <CarModel car={car} config={configs[car.id]} />
-              </Turntable>
-            </PixelCanvas>
-            <div className="car-card__info">
-              <span className="car-card__num">P{i + 1}</span>
-              <h3>{car.name}</h3>
-              <p className="car-card__tag">{car.tagline}</p>
-              <StatBar label="SPD" value={car.stats.speed} />
-              <StatBar label="HND" value={car.stats.handling} />
-              <StatBar label="DRF" value={car.stats.drift} />
+      <div className="car-sections" ref={gridRef} onKeyDown={onKeyDown}>
+        {series.map((sr) => (
+          <section key={sr.id} className="car-section">
+            <h2 className="car-section__title">{sr.name}</h2>
+            <div className="car-grid">
+              {cars
+                .filter((car) => car.series === sr.id)
+                .map((car) => {
+                  const i = cars.indexOf(car);
+                  return (
+                    <button key={car.id} type="button" className="car-card" onClick={() => onSelect(car.id)} autoFocus={i === 0}>
+                      <PixelCanvas camera={{ position: [5.6, 2.5, 5.6], fov: 34 }}>
+                        <Stage />
+                        <Turntable>
+                          <CarModel car={car} config={configs[car.id]} />
+                        </Turntable>
+                      </PixelCanvas>
+                      <div className="car-card__info">
+                        <span className="car-card__num">P{i + 1}</span>
+                        <span className="car-card__make">{car.make}</span>
+                        <h3>{car.model}</h3>
+                        <p className="car-card__tag">{car.tagline}</p>
+                        <StatBar label="SPD" value={car.stats.speed} />
+                        <StatBar label="HND" value={car.stats.handling} />
+                        <StatBar label="DRF" value={car.stats.drift} />
+                      </div>
+                    </button>
+                  );
+                })}
             </div>
-          </button>
+          </section>
         ))}
       </div>
 
